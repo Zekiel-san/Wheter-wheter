@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & Map</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Include your custom JavaScript file -->
+    <script defer src="tester.js"></script>
+</head>
+
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter city name" spellcheck="false">
+            <button><img src="images/search_wtbg.gif" alt="Search"></button>
+        </div>
+      
+        <div class="weather">
+            <img src="images/rain_wtbg.gif" class="weather-icon" alt="Weather Icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Canada</h2>
+        </div>
+
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity2_wtbg.gif" alt="Humidity">
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+            <div class="col">
+                <img src="images/wind2_wtbg.gif" alt="Wind Speed">
+                <div>
+                    <p class="wind">18 km/h</p>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+            <div class="col">
+                <img src="images/sealvl_wtbg.gif" alt="feels_like">
+                <div>
+                    <p class="sea">18 km/h</p>
+                    <p>Sea Level</p>
+                </div>
+            </div>
+        </div>
+        <div class="timezone"></div>
+
+        <div id="map" class="map"></div> <!-- Make sure to change class "map" to id "map" -->
+        
+    </div>
+</body>
+
+</html>
