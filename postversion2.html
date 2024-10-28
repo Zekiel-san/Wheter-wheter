@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & Map</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter city name" spellcheck="false">
+            <button><img src="images/search.png"></button>
+        </div>
+        <div class="error"><p>City not found</p></div>
+        <div class="weather">
+            <img src="images/rain.png" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Canada</h2>
+        </div>
+
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png">
+                <div>
+                    <p class="humidity">50%</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+            <div class="col">
+                <img src="images/wind.png">
+                <div>
+                    <p class="wind">18 km/h</p>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <!-- Include Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"> </script>
+    <script>
+        const apiKey = "2a6e4864588d051d19a67b90d996f4f8";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+		
+		const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        let map = L.map('map').setView([51.505, -0.09], 10); // Default view (you can adjust)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        async function scanWeather(city) {
+            const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+            if (reponse.status == 404) {
+                document.querySelector(".error").style.display = "block"
+                document.querySelector(".weather").style.display = "none"
+            }
+            else{
+                var data = await response.json();
+
+                    // Update weather info
+                    document.querySelector(".city").innerHTML = data.name;
+                    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + " °C";
+                    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+                    document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+                    // Update weather icon
+                    if (data.weather[0].main === "Clear") {
+                        weatherIcon.src = "images/clear.png";
+                    } else if (data.weather[0].main === "Clouds") {
+                        weatherIcon.src = "images/clouds.png";
+                    } else if (data.weather[0].main === "Rain") {
+                        weatherIcon.src = "images/rain.png";
+                    }
+
+                    // Update map view based on city coordinates
+                    const lat = data.coord.lat;
+                    const lon = data.coord.lon;
+                    map.setView([lat, lon], 10);
+                    L.marker([lat, lon]).addTo(map);
+                    }
+
+                    searchBtn.addEventListener("click", () => {
+                    scanWeather(searchBox.value);
+                    }); 
+                                
+                }
+            
+    </script>
+
+</body>
+
+</html>
