@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Wheather</title>
+		<title>Weather</title>
 		<link rel="stylesheet" href="stylesheet.css"></link>
 	</head>
 	
@@ -43,24 +43,31 @@
 		<script>
 		
 			const apiKey = "2a6e4864588d051d19a67b90d996f4f8";
-			const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=Manila";
+			const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 			
-			async function scanwheater()
+			const searchBox = document.querySelector(".search input");
+			const searchBtn = document.querySelector(".search button");
+			
+			
+			async function scanWeather(city)
 			{
-				const response = await fetch(apiUrl + `&appid=${apiKey}`);
+				const response = await fetch(apiUrl + city +`&appid=${apiKey}`);
 				var data = await response.json();
 				
 				console.log(data);
 				
 				document.querySelector(".city").innerHTML = data.name;
-				document.querySelector(".temp").innerHTML = data.main.temp + "°C";
+				document.querySelector(".temp").innerHTML = data.main.temp + " °C";
 				document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
 				document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 				
-				
+
 			}
 		
-		scanwheater();
+		searchBtn.addEventListener("click", ()=>{
+			scanWeather(searchBox.value);
+		})
+			
 		</script>
 		
 	</body>
